@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: gilroy;
+}
+h1 {
+  margin-bottom: 5em;
+}
+a {
+  text-decoration: none;
+}
