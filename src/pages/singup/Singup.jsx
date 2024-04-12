@@ -43,7 +43,7 @@ const Singup = () => {
           <button type="submit">Make New Account</button>
           <div className="war ">
             <span>Already have an account ?</span>
-            <NavLink to="/Profile" className="log">
+            <NavLink to="/Login" className="log">
               Log in
             </NavLink>
           </div>
