@@ -38,8 +38,10 @@ nav {
   border-bottom: 1px solid #100f0f9f;
   padding: 0px 1.6rem;
 }
+
 nav p {
   display: inline-block;
+  margin-left: 12px;
   font-size: 25px;
   font-weight: 400;
 }
