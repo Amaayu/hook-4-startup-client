@@ -6,7 +6,7 @@ const Card = () => {
       <div className="top-row">
         <img
           className="img-1"
-          src="https://res-console.cloudinary.com/dijzsv2tt/media_explorer_thumbnails/0028ac1b737a7591deac9201eae87da9/detailed"
+          src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1702931273/ilaody3w0s6ywvpqggtl.jpg"
           alt="profile"
         />
         <h4>aayu_is.here</h4>

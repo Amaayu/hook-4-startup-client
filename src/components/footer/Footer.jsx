@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="fot-right">
           <i class="ri-notification-2-line"></i>
           <img
-            src="https://res-console.cloudinary.com/dijzsv2tt/media_explorer_thumbnails/db7a368ef7f34034f3233669298ebac3/detailed"
+            src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1702932131/wnjynhj7jft7vzo4frg3.jpg"
             alt="icon"
           />
         </div>
