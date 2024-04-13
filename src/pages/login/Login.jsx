@@ -31,7 +31,9 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit">Login</button>
+          <button className="button-1" type="submit">
+            Login
+          </button>
           <div className="war ">
             <span>Don't have an account ?</span>
             <NavLink to="/" className="log">

@@ -8,7 +8,7 @@ const Singup = () => {
       <div className="sing">
         <img className="logo" src="src\assets\Logo.png" alt="Hook4StartUp" />
         <h2 id="mong">
-          Hook4Startup to help find the best partner for your startup growth
+          Hook4startup to help find the best partner for your startup growth
           journey.
         </h2>
 
@@ -40,7 +40,9 @@ const Singup = () => {
               required
             />
           </div>
-          <button type="submit">Make New Account</button>
+          <button className="button-1" type="submit">
+            Make New Account
+          </button>
           <div className="war ">
             <span>Already have an account ?</span>
             <NavLink to="/Login" className="log">

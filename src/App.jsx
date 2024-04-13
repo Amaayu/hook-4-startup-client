@@ -2,6 +2,7 @@ import React from "react";
 import SignUp from "./pages/singup/Singup";
 import Profile from "./pages/profile/Profile";
 import Login from "./pages/login/Login";
+import Feed from "./pages/feed/Feed";
 import { Routes, Route } from "react-router-dom";
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
         <Route path="/" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/feed" element={<Feed />} />
       </Routes>
     </>
   );
