@@ -4,7 +4,11 @@ const Card = () => {
   return (
     <div className="content">
       <div className="top-row">
-        <img className="img-1" src="src\assets\me.jpeg" alt="profile" />
+        <img
+          className="img-1"
+          src="https://res-console.cloudinary.com/dijzsv2tt/media_explorer_thumbnails/0028ac1b737a7591deac9201eae87da9/detailed"
+          alt="profile"
+        />
         <h4>aayu_is.here</h4>
       </div>
       <p>
