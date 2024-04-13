@@ -8,9 +8,16 @@ const Feed = () => {
     <>
       <div className="feed">
         <nav>
-          <i class="ri-menu-2-line"></i>
+          <div className="nav-right">
+            <i class="ri-menu-2-line"></i>
+            <span>Menu</span>
+          </div>
+
           <p>Hook 4 startup</p>
-          <i class="ri-team-line"></i>
+          <div className="nav-left">
+            <i class="ri-team-line"></i>
+            <span>Meet Up</span>
+          </div>
         </nav>{" "}
         <Card />
         <Card />

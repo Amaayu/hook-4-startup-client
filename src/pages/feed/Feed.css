@@ -7,6 +7,21 @@
   align-content: space-between;
   justify-content: center;
 }
+.feed .nav-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.feed .nav-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.feed span {
+  font-size: 0.9rem;
+}
 .footer {
   bottom: 0px;
   z-index: 10;
