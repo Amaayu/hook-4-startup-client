@@ -23,7 +23,10 @@ const Card = () => {
       </p>
       <div className="like-row">
         <div className="like-left">
-          <img src="src\assets\Group 15.png" alt="meet-btn" />
+          <img
+            src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1713022947/Group_15_srsx27.png"
+            alt="meet-btn"
+          />
           <i class="ri-heart-3-line"></i>
           <i class="ri-chat-3-line"></i>
           <i class="ri-share-circle-line"></i>
