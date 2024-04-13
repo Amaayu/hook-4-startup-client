@@ -6,7 +6,11 @@ const Singup = () => {
   return (
     <>
       <div className="sing">
-        <img className="logo" src="src\assets\Logo.png" alt="Hook4StartUp" />
+        <img
+          className="logo"
+          src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1713021728/Logo_xxgb0i.png"
+          alt="Hook4StartUp"
+        />
         <h2 id="mong">
           Hook4startup to help find the best partner for your startup growth
           journey.

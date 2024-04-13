@@ -9,7 +9,7 @@ const Login = () => {
         <form className="form-1">
           <img
             className="logo-1"
-            src="src\assets\Logo.png"
+            src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1713021728/Logo_xxgb0i.png"
             alt="Hook4StartUp"
           />
           <div className="form-group">
