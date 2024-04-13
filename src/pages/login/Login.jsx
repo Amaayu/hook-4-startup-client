@@ -36,7 +36,7 @@ const Login = () => {
           </button>
           <div className="war ">
             <span>Don't have an account ?</span>
-            <NavLink to="/" className="log">
+            <NavLink to="/feed" className="log">
               Sing Up
             </NavLink>
           </div>
