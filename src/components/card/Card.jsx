@@ -16,10 +16,6 @@ const Card = () => {
         voluptatum consequatur error exercitationem consequuntur praesentium sit
         earum tempore sunt dicta optio veritatis, quas incidunt maiores,
         molestiae dignissimos, ipsam natus. Lorem ipsum dolor, sit amet
-        consectetur adipisicing elit. Odit magnam voluptatum consequatur error
-        exercitationem consequuntur praesentium sit earum tempore sunt dicta
-        optio veritatis, quas incidunt maiores, molestiae dignissimos, ipsam
-        natus.
       </p>
       <div className="like-row">
         <div className="like-left">
@@ -27,11 +23,11 @@ const Card = () => {
             src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1713022947/Group_15_srsx27.png"
             alt="meet-btn"
           />
-          <i class="ri-heart-3-line"></i>
-          <i class="ri-chat-3-line"></i>
-          <i class="ri-share-circle-line"></i>
+          <i className="ri-heart-3-line"></i>
+          <i className="ri-chat-3-line"></i>
+          <i className="ri-share-circle-line"></i>
         </div>
-        <i class="ri-bookmark-line"></i>
+        <i className="ri-bookmark-line"></i>
       </div>
     </div>
   );

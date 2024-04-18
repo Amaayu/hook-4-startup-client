@@ -6,22 +6,21 @@ const Footer = () => {
   return (
     <>
       <div className="footer">
-        <div class="fot-left">
+        <div className="fot-left">
           <NavLink to="/feed" className="log-3">
-            <i class="ri-home-6-line"></i>
+            <i className="ri-home-6-line"></i>
           </NavLink>
           <NavLink to="/feed" className="log-3">
-            <i class="ri-search-2-line"></i>
+            <i className="ri-search-2-line"></i>
           </NavLink>
         </div>
-        <NavLink to="/feed" className="log-3">
+        <NavLink to="/post" className="log-3">
           <button className="btn"></button>
         </NavLink>
-
         <span>pitch-idea</span>
         <div className="fot-right">
           <NavLink to="/feed" className="log-3">
-            <i class="ri-notification-2-line"></i>
+            <i className="ri-notification-2-line"></i>
           </NavLink>
 
           <NavLink to="/profile" className="log-2">

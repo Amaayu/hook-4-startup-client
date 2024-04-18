@@ -1,10 +1,7 @@
 .profile {
   height: 100vh;
 }
-.footer {
-  bottom: 0px;
-  z-index: 10;
-}
+
 .mid-row {
   display: flex;
   align-items: center;
