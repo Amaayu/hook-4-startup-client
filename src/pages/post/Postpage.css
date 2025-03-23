@@ -1,0 +1,115 @@
+/* ✅ Main Post Container */
+.post {
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+}
+
+/* ✅ Top Navbar */
+.post .nav-2 {
+  display: flex;
+  width: 100%;
+  height: 63px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 1.6rem;
+}
+
+/* ✅ Navbar Title */
+.post .nav-2 p {
+  position: relative;
+  right: 35%;
+  font-size: 18px;
+  font-weight: 450;
+}
+
+/* ✅ Post Options Section */
+.post-mid {
+  display: flex;
+  width: 100%;
+  position: relative;
+  top: 4rem;
+  height: 8rem;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* ✅ Post Icon Size */
+.post .post-mid i {
+  font-size: 80px;
+  font-weight: 100;
+}
+
+/* ✅ Image & Video Container */
+.post-img,
+.post-vid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ Video Text */
+.post-vid p {
+  width: 3rem;
+  margin-right: 11px;
+}
+
+/* ✅ Input Section */
+.post-inp {
+  width: 90%;
+  margin: 6rem auto 0;
+}
+
+/* ✅ Textarea for Post Input */
+.post-inp textarea {
+  background-color: transparent;
+  border: 1.3px solid black;
+  border-radius: 0.7rem;
+  width: 100%;
+  font-size: large;
+  font-weight: 400;
+  resize: none; /* Disable resizing */
+  outline: none;
+}
+
+/* ✅ Placeholder Style */
+.post-inp textarea::placeholder {
+  color: #999;
+}
+
+/* ✅ Post Button */
+.post .btn-2 {
+  position: relative;
+  top: 6.8rem;
+  width: 10rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  text-align: center;
+  background-color: #08979c;
+  color: white;
+  border-radius: 1.5rem;
+  margin: 2px auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ Post Button Hover Effect */
+.post .btn-2:hover {
+  background-color: #007d7e;
+}
+
+/* ✅ Mobile Responsive */
+@media (max-width: 768px) {
+  .post .nav-2 p {
+    right: 20%;
+  }
+  .post-inp {
+    width: 95%;
+  }
+  .post-inp textarea {
+    height: 9rem;
+  }
+}

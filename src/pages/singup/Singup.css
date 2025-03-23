@@ -1,0 +1,136 @@
+.sing {
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(240, 242, 245);
+}
+.war {
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+.war p {
+  cursor: pointer;
+}
+a {
+  color: rgba(11, 69, 73, 1);
+}
+.logo {
+  position: absolute;
+  top: 30%;
+  left: 16em;
+  width: 13em;
+}
+
+.form-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style for the form */
+form {
+  position: absolute;
+  right: 14em;
+  width: 25.3em;
+  height: 18em;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+/* Style for the heading */
+
+/* Style for form groups */
+.form-group {
+  margin-bottom: 9px;
+}
+
+/* Style for labels */
+label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  height: 3.5em;
+  padding: 15px;
+  border: 1px solid rgba(11, 69, 73, 1);
+  border-radius: 10px;
+}
+h2 {
+  width: 17em;
+  font-weight: 450;
+  margin-right: 19.5em;
+  margin-top: 6em;
+}
+/* Style for submit button */
+button {
+  width: 100%;
+  height: 3.5em;
+
+  background-color: rgba(11, 69, 73, 1);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+@media (max-width: 900px) {
+  .sing {
+    flex-direction: column;
+  }
+  form {
+    width: 100vw;
+    background-color: transparent;
+    box-shadow: none;
+    top: 34%;
+    left: 0%;
+    bottom: 26%;
+    padding: 10px;
+  }
+  .logo {
+    width: 40%;
+    margin: -7.3em;
+    top: 22%;
+    left: 15em;
+  }
+  h2 {
+    display: inline-block;
+    position: absolute;
+    top: 7%;
+    bottom: 60%;
+    left: 5%;
+    width: 90%;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  button {
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .war {
+    height: 2.5em;
+  }
+}

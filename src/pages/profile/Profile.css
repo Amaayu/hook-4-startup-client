@@ -1,0 +1,111 @@
+.profile {
+  min-height: 100vh; /* ✅ Fix for height overflow */
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 5rem; /* ✅ Space for footer */
+}
+
+.mid-row {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.mid-row h4 {
+  font-size: 1.5rem;
+  margin-top: 0.7rem;
+  color: #0b4549;
+}
+.btn-2 {
+  background-color: #0397a1;
+  border: none;
+  border-radius: 15px;
+  width: 6rem;
+  text-align: center;
+  padding: 8px;
+  margin: 5px;
+  color: white;
+  font-size: 0.9rem;
+}
+.mid-row h6 {
+  font-size: 1rem;
+  color: #97a4a6;
+}
+.mid-row img {
+  margin-top: 1.5rem;
+  width: 27vw;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #5cbcca;
+  box-shadow: 0 2px 4px darkslategray;
+}
+.profile .nav-1 {
+  width: 100%;
+  height: 63px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 1.6rem;
+}
+.mid p {
+  display: inline-block;
+  margin-left: 2rem;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+/* ✅ mid-row-1 and image fix */
+.mid-row-1 {
+  position: relative;
+  width: 100%;
+  height: 16rem;
+  margin-top: 1.5rem; /* ✅ Added spacing */
+}
+.mid-row-1 img {
+  display: inline-block;
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  object-position: 0% 65%;
+}
+
+/* ✅ Follow row position fix */
+.follow-row {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 2rem; /* ✅ Added space to avoid overlap */
+  position: relative;
+}
+.follow-row h4 {
+  color: white;
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.follower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.following {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ✅ Footer Padding Fix */
+.profile .content {
+  position: relative;
+  top: 8rem;
+  margin-bottom: 5rem; /* ✅ Added space for footer */
+}
+.profile i img {
+  width: 5px;
+}

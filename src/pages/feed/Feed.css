@@ -1,0 +1,87 @@
+/* ✅ Feed Container */
+.feed {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* ✅ Cards ko vertically align kiya */
+  align-items: center; /* ✅ Cards center me lane ke liye */
+  gap: 1.2rem; /* ✅ Card ke beech gap */
+  padding-top: 5.5rem; /* ✅ Navbar ke liye upar space diya */
+  padding-bottom: 5rem; /* ✅ Footer ke liye neeche space */
+  background-color: #f8f9fa;
+}
+
+/* ✅ Navbar ko sahi jagah fix kiya */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 63px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 1.6rem;
+  border-bottom: 1px solid #100f0f9f;
+  z-index: 1000; /* ✅ Upar rakhne ke liye */
+}
+
+/* ✅ Nav Options */
+.feed .nav-right,
+.feed .nav-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.feed span {
+  font-size: 0.9rem;
+}
+
+/* ✅ Footer Fix */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid #100f0f9f;
+  z-index: 10;
+}
+
+/* ✅ Cards ko theek kiya */
+.content {
+  width: 90%; /* ✅ Responsive width */
+  max-width: 500px; /* ✅ Max width for desktop */
+  border: 1px solid #100f0f9f;
+  border-radius: 20px;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Top row ka fix */
+.top-row {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+/* ✅ Profile Image */
+.content .img-1 {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ✅ Like Row Fix */
+.like-row {
+  display: flex;
+  margin-top: 14px;
+  justify-content: space-between;
+}
+.like-row .like-left {
+  display: flex;
+  gap: 0.8rem;
+}

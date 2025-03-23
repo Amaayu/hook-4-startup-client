@@ -1,0 +1,79 @@
+/* ✅ Card Styling */
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 380px; /* ✅ Fixed width for cards */
+  border: 1px solid #100f0f9f;
+  border-radius: 20px;
+  padding: 15px;
+  /* ✅ Card spacing */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ✅ Shadow for better look */
+}
+
+/* ✅ Text inside card */
+.content p {
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  padding: 5px;
+}
+
+/* ✅ User info row */
+.top-row {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+/* ✅ Profile image */
+.content .img-1 {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ✅ Like row and icons */
+.like-row {
+  display: flex;
+  margin-top: 14px;
+  justify-content: space-between;
+}
+
+.like-row .like-left {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.like-row .like-left img {
+  display: inline-block;
+  margin-top: 1px;
+  padding: 1px;
+  width: 2rem;
+  height: 1.4rem;
+}
+
+/* ✅ Username text */
+.top-row h4 {
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0;
+}
+.ri-heart-3-line {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.ri-heart-3-line.liked {
+  color: red; /* ❤️ Like hone ke baad red */
+}
+.like-count {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 1px;
+  gap: 5px;
+  color: #000;
+}

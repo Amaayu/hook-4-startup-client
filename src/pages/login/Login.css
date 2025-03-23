@@ -1,0 +1,92 @@
+.login {
+  height: 100vh;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(240, 242, 245);
+}
+
+.form-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.logo-1 {
+  display: none;
+}
+.form-1 {
+  top: 8em;
+  right: 36%;
+  width: 25.3em;
+  height: 15em;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  height: 3.5em;
+  padding: 15px;
+  border: 1px solid rgba(11, 69, 73, 1);
+  border-radius: 10px;
+}
+.button-1 {
+  width: 100%;
+  height: 3.5em;
+
+  background-color: rgba(11, 69, 73, 1);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+@media (max-width: 900px) {
+  .sing {
+    flex-direction: column;
+  }
+  .form-1 {
+    width: 100vw;
+    background-color: transparent;
+    box-shadow: none;
+    left: 0%;
+    bottom: 26%;
+    padding: 10px;
+    top: 35%;
+  }
+  .logo-1 {
+    display: block;
+    width: 10em;
+    position: absolute;
+    top: -45%;
+    left: 30%;
+  }
+}
+.loader-icon {
+  margin-right: 5px;
+  animation: spin 0.6s ease-in-out infinite; /* 🔥 Smooth and faster */
+  font-size: 18px; /* ✅ Icon size thoda bada */
+  vertical-align: middle; /* 🎯 Align with text */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* 🎉 Start position */
+  }
+  100% {
+    transform: rotate(360deg); /* 🔄 Complete rotation */
+  }
+}
