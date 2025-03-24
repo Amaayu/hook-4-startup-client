@@ -11,7 +11,6 @@ export default defineConfig({
   preview: {
     port: 3000, // ✅ Preview ke liye bhi same port
     host: "0.0.0.0", // ✅ Docker me accessibl
-   allowedHosts: ["hook4startup-client.onrender.com"],
+    allowedHosts: ["hook4startup-client.onrender.com"],
   },
-  
 });
