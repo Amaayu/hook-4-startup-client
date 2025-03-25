@@ -7,6 +7,7 @@ import api from "../../../api/api";
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // ✅ Button loader state
+  const [showPassword, setShowPassword] = useState(false); // 👁️ Password visibility state
 
   // ✅ react-hook-form setup
   const {
@@ -115,10 +116,10 @@ const Login = () => {
           )}
         </div>
 
-        {/* ✅ Password Input with Strong Validation */}
-        <div className="form-group">
+        {/* ✅ Password Input with Eye Icon */}
+        <div className="form-group password-container">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // 👁️ Show/Hide
             id="password"
             placeholder="Password"
             {...register("password", {
@@ -135,6 +136,13 @@ const Login = () => {
               },
             })}
           />
+          {/* 👁️ Toggle Eye Icon */}
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "👁️" : "🙈"}
+          </span>
           {errors.password && (
             <span className="error">{errors.password.message}</span>
           )}

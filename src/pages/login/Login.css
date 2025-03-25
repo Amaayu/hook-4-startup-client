@@ -95,3 +95,31 @@ input[type="password"] {
   font-size: 14px;
   margin-top: 5px;
 }
+/* 👁️ Password Container */
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+/* 🔥 Input Field */
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+/* 👁️ Eye Icon Style */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ⚠️ Error Style */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

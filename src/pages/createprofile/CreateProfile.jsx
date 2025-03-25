@@ -50,7 +50,6 @@ const CreateProfile = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
         credentials: "include",
       });
@@ -92,7 +91,6 @@ const CreateProfile = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         body: JSON.stringify(profileData),
@@ -140,9 +138,6 @@ const CreateProfile = () => {
 
         const uploadResponse = await fetch(`${api}/cloudinary/profile/create`, {
           method: "POST",
-          headers: {
-            //Authorization: `Bearer ${token}`,
-          },
           credentials: "include",
           body: formData,
         });
@@ -166,7 +161,9 @@ const CreateProfile = () => {
       <div className="nav">
         <i className="ri-arrow-left-line"></i>
         <i
-          className={`ri-check-line ${isLoading ? "disabled" : ""}`}
+          className={`ri-check-line ${
+            isLoading ? "disabled ri-loader-4-line rotate" : ""
+          }`}
           onClick={isLoading ? null : handleProfileCreate}
         ></i>
       </div>
@@ -241,8 +238,6 @@ const CreateProfile = () => {
           <i className="ri-arrow-right-s-line"></i>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

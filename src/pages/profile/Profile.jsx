@@ -1,27 +1,28 @@
 import "./Profile.css";
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
+import api from "../../../api/api";
 
 const Profile = () => {
   // ✅ State to hold user profile data
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true); // ✅ Loading state
 
-  // ✅ Fetch User Profile API on Component Load
+  // ✅ Fetch Profile Data on Load
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      // 🧠 Pehle sessionStorage check karo
-      const cachedProfile = sessionStorage.getItem("userProfile");
-      if (cachedProfile) {
-        console.log("🚀 Using Cached Profile from sessionStorage!");
-        setUserData(JSON.parse(cachedProfile)); // ✅ Cached data se render karo
-        setLoading(false);
-        return;
-      }
+    const cachedProfile = sessionStorage.getItem("userProfile");
 
+    // 🚀 Pehle cache se render karo
+    if (cachedProfile) {
+      console.log("🚀 Using Cached Profile from sessionStorage!");
+      setUserData(JSON.parse(cachedProfile)); // ✅ Cached profile set karo
+      setLoading(false);
+    }
+
+    // ✅ Background me fresh data ko le aao
+    const fetchUserProfile = async () => {
       try {
-        // ✅ API Call agar cache nahi mila
-        const response = await fetch("http://localhost:8081/user/profile", {
+        const response = await fetch(`${api}/user/profile`, {
           method: "GET",
           credentials: "include", // ✅ Token cookies se bhejo
         });
@@ -31,25 +32,24 @@ const Profile = () => {
         }
 
         const data = await response.json();
-        console.log("✅ Fetched Profile:", data);
+        console.log("✅ Fetched Updated Profile:", data);
 
-        // ✅ Profile ko state me set karo
+        // ✅ New Profile ko update karo
         setUserData(data.userProfile);
-        // 🚀 Cache the profile in sessionStorage
+        // 🚀 Cache updated data in sessionStorage
         sessionStorage.setItem("userProfile", JSON.stringify(data.userProfile));
-
-        setLoading(false);
       } catch (error) {
         console.error("🔥 Error fetching profile:", error);
-        setLoading(false);
+      } finally {
+        setLoading(false); // ✅ Loading false
       }
     };
 
-    fetchUserProfile();
+    fetchUserProfile(); // ✅ API Call for fresh data
   }, []);
 
   // ✅ Check if data is loading
-  if (loading) {
+  if (loading && !userData) {
     return <h3>Loading user profile...</h3>;
   }
 

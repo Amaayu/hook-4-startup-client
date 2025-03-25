@@ -1,8 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Footer.css";
+import api from "../../../api/api";
 
 const Footer = () => {
+  const [profilePicture, setProfilePicture] = useState(
+    "https://pfpmaker.com/images/ai/examples/first/pic-1.png"
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ✅ Fetch Profile with Caching
+  const fetchUserProfile = async () => {
+    const cachedProfile = sessionStorage.getItem("userProfile");
+
+    if (cachedProfile) {
+      console.log("📦 Using Cached Profile");
+      setProfilePicture(JSON.parse(cachedProfile).profilePictureUrl);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      console.log("🚀 Fetching profile from API...");
+      const response = await fetch(`${api}/user/profile`, {
+        method: "GET",
+        credentials: "include", // ✅ Token cookies se bhejo
+      });
+
+      if (!response.ok) {
+        throw new Error("❌ Failed to fetch user profile!");
+      }
+
+      const data = await response.json();
+      console.log("✅ Fetched Profile:", data);
+
+      // ✅ Profile ko state me set karo
+      setProfilePicture(data.userProfile.profilePicture);
+      // 🚀 Cache the profile in sessionStorage
+      sessionStorage.setItem("userProfile", JSON.stringify(data.userProfile));
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("🔥 Error fetching profile:", error);
+      setIsLoading(false);
+    }
+  };
+
+  // ✅ Fetch Profile on Component Mount
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
   return (
     <>
       <div className="footer">
@@ -24,10 +72,11 @@ const Footer = () => {
           </NavLink>
 
           <NavLink to="/profile" className="log-2">
-            <img
-              src={"https://pfpmaker.com/images/ai/examples/first/pic-1.png"}
-              alt="icon"
-            />
+            {isLoading ? (
+              <div className="loader"></div> // ⏳ Loader jab tak profile load ho raha hai
+            ) : (
+              <img src={profilePicture} alt="icon" />
+            )}
           </NavLink>
         </div>
       </div>

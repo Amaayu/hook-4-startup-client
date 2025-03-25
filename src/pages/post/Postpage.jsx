@@ -6,6 +6,7 @@ import api from "../../../api/api";
 
 const Postpage = () => {
   const [content, setContent] = useState(""); // ✅ Idea ko store karo
+  const [isLoading, setIsLoading] = useState(false); // ⏳ Loader state
   const navigate = useNavigate(); // ✅ Navigation object
 
   // 🚀 API Call for Post
@@ -14,6 +15,8 @@ const Postpage = () => {
       alert("⚠️ Please write something to pitch!");
       return;
     }
+
+    setIsLoading(true); // ⏳ Start loader
 
     try {
       const response = await fetch(`${api}/post/create`, {
@@ -32,15 +35,20 @@ const Postpage = () => {
         navigate("/feed"); // 🧭 Redirect to Feed
       } else {
         console.error("❌ Failed to create post.");
+        alert("❌ Failed to create post. Try again!");
       }
     } catch (error) {
       console.error("🔥 Error in posting idea:", error.message);
+      alert("🔥 Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false); // ✅ Stop loader
     }
   };
 
   return (
     <>
       <div className="post">
+        {/* ✅ Top Navbar */}
         <div className="nav-2">
           <i
             className="ri-arrow-left-line"
@@ -49,6 +57,7 @@ const Postpage = () => {
           <p>Upload Post</p>
         </div>
 
+        {/* ✅ Post Type (Image/Video) */}
         <div className="post-mid">
           <div className="post-img">
             <i className="ri-image-circle-line"></i>
@@ -61,6 +70,7 @@ const Postpage = () => {
           </div>
         </div>
 
+        {/* ✅ Input Box */}
         <div className="post-inp">
           <input
             type="text"
@@ -70,9 +80,13 @@ const Postpage = () => {
           />
         </div>
 
-        {/* ✅ Button pe click hote hi API call */}
+        {/* ✅ Submit Button with Loader */}
         <div className="btn-2" onClick={handlePostSubmit}>
-          pitch your idea
+          {isLoading ? (
+            <div className="loader"></div> // ⏳ Show Loader if Posting
+          ) : (
+            "Pitch Your Idea"
+          )}
         </div>
 
         <Footer />

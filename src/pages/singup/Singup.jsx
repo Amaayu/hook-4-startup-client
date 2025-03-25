@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./Singup.css";
@@ -6,17 +6,20 @@ import api from "../../../api/api";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // 👁️ Password visibility state
+  const [isSingup, setIsSingup] = useState(false); // ✅ Button loader state
 
   // ✅ react-hook-form setup
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
   // ✅ Form submit handler
   const onSubmit = async (data) => {
+    setIsSingup(true); // ✅ Start loader
+
     try {
       const response = await fetch(`${api}/auth/signup`, {
         method: "POST",
@@ -40,6 +43,8 @@ const Signup = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsSingup(false); // ✅ Stop loader
     }
   };
 
@@ -99,10 +104,10 @@ const Signup = () => {
           )}
         </div>
 
-        {/* Password Field with Strong Validation */}
-        <div className="form-group">
+        {/* Password Field with Eye Icon */}
+        <div className="form-group password-container">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // 👁️ Show/Hide
             id="password"
             placeholder="Password"
             {...register("password", {
@@ -119,14 +124,27 @@ const Signup = () => {
               },
             })}
           />
+          {/* 👁️ Toggle Eye Icon */}
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "👁️" : "🙈"}
+          </span>
           {errors.password && (
             <span className="error">{errors.password.message}</span>
           )}
         </div>
 
         {/* Submit Button */}
-        <button className="button-1" type="submit">
-          Make New Account
+        <button className="button-1" type="submit" disabled={isSingup}>
+          {isSingup ? (
+            <>
+              <i className="ri-loader-4-line loader-icon"></i> Signing up...
+            </>
+          ) : (
+            "Make New Account"
+          )}
         </button>
 
         {/* Already have an account */}
