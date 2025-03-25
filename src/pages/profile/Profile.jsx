@@ -3,32 +3,60 @@ import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 
 const Profile = () => {
-  // ✅ State to hold user data
+  // ✅ State to hold user profile data
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ Loading state
 
-  // ✅ Fetch User Data from sessionStorage on Component Load
+  // ✅ Fetch User Profile API on Component Load
   useEffect(() => {
-    const storedUserData = sessionStorage.getItem("userData");
-    if (storedUserData) {
-      try {
-        setUserData(JSON.parse(storedUserData));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        setUserData(null);
+    const fetchUserProfile = async () => {
+      // 🧠 Pehle sessionStorage check karo
+      const cachedProfile = sessionStorage.getItem("userProfile");
+      if (cachedProfile) {
+        console.log("🚀 Using Cached Profile from sessionStorage!");
+        setUserData(JSON.parse(cachedProfile)); // ✅ Cached data se render karo
+        setLoading(false);
+        return;
       }
-    }
+
+      try {
+        // ✅ API Call agar cache nahi mila
+        const response = await fetch("http://localhost:8081/user/profile", {
+          method: "GET",
+          credentials: "include", // ✅ Token cookies se bhejo
+        });
+
+        if (!response.ok) {
+          throw new Error("❌ Failed to fetch user profile!");
+        }
+
+        const data = await response.json();
+        console.log("✅ Fetched Profile:", data);
+
+        // ✅ Profile ko state me set karo
+        setUserData(data.userProfile);
+        // 🚀 Cache the profile in sessionStorage
+        sessionStorage.setItem("userProfile", JSON.stringify(data.userProfile));
+
+        setLoading(false);
+      } catch (error) {
+        console.error("🔥 Error fetching profile:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
   }, []);
 
-  // ✅ Check if userData exists
-  if (!userData) {
+  // ✅ Check if data is loading
+  if (loading) {
     return <h3>Loading user profile...</h3>;
   }
 
-  // ✅ Accessing userProfileId correctly
-  const userProfileId = userData.userProfileId || {}; // Agar null hai toh empty object assign kar raha hai
-
-  console.log("userData:", userData);
-  console.log("userProfileId:", userProfileId);
+  // ✅ Handle no profile found
+  if (!userData) {
+    return <h3>No profile found! ❌</h3>;
+  }
 
   return (
     <>
@@ -45,19 +73,18 @@ const Profile = () => {
           </i>
         </div>
 
+        {/* ✅ Profile Details */}
         <div className="mid">
           <div className="mid-row">
             <img
               src={
-                userProfileId.profilePictureUrl ||
+                userData.profilePictureUrl ||
                 "https://pfpmaker.com/images/ai/examples/first/pic-1.png"
               }
               alt="profile"
             />
             <h4>
-              {userProfileId.fullName
-                ? userProfileId.fullName
-                : "No Name Available"}
+              {userData.fullName ? userData.fullName : "No Name Available"}
             </h4>
             <h6>{userData.username || "No Username"}</h6>
             <div className="btn-2">Edit profile</div>
@@ -72,23 +99,15 @@ const Profile = () => {
             <div className="follow-row">
               <div className="post">
                 <h4>Posts</h4>
-                <h4>50</h4>
+                <h4>{userData.numberOfPosts || 0}</h4>
               </div>
               <div className="follower">
                 <h4>Followers</h4>
-                <h4>
-                  {userProfileId.numberOfFollowers
-                    ? userProfileId.numberOfFollowers
-                    : 0}
-                </h4>
+                <h4>{userData.numberOfFollowers || 0}</h4>
               </div>
               <div className="following">
                 <h4>Following</h4>
-                <h4>
-                  {userProfileId.numberOfFollowing
-                    ? userProfileId.numberOfFollowing
-                    : 0}
-                </h4>
+                <h4>{userData.numberOfFollowing || 0}</h4>
               </div>
             </div>
           </div>

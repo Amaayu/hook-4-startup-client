@@ -90,3 +90,8 @@ input[type="password"] {
     transform: rotate(360deg); /* 🔄 Complete rotation */
   }
 }
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

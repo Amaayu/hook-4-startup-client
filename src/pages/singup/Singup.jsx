@@ -1,43 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import "./Singup.css";
 import api from "../../../api/api";
 
 const Signup = () => {
-  const [userIsLoading, setUserIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  // ✅ Navigate to /feed if user is authenticatedß
-  useEffect(() => {
-    if (userIsLoading) {
-      navigate("/feed");
-    }
-  }, [userIsLoading, navigate]);
+  // ✅ react-hook-form setup
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   // ✅ Form submit handler
-  const mySubmitHandler = async (e) => {
-    e.preventDefault();
-    const paylode = { username, email, password };
-
+  const onSubmit = async (data) => {
     try {
       const response = await fetch(`${api}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paylode),
-        credentials: "include", // ✅ Allow cookies
+        body: JSON.stringify(data),
+        credentials: "include",
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const resData = await response.json();
         console.log("Signup successful!");
-        setUserIsLoading(true);
-        // ✅ Save user data in sessionStorage
-        sessionStorage.setItem("userData", JSON.stringify(data.user));
-        console.log(data.user.makeProfileStatus);
-        if (data.user.makeProfileStatus === false) {
+        sessionStorage.setItem("userData", JSON.stringify(resData.user));
+
+        if (resData.user.makeProfileStatus === false) {
           navigate("/createprofile");
         } else {
           navigate("/feed");
@@ -62,43 +55,81 @@ const Signup = () => {
         journey.
       </h2>
 
-      <form onSubmit={mySubmitHandler}>
+      {/* ✅ Form with react-hook-form */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Username Field */}
         <div className="form-group">
           <input
             type="text"
             id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            required
+            {...register("username", {
+              required: "Username is required",
+              minLength: {
+                value: 5,
+                message: "Username must be at least 5 characters",
+              },
+              maxLength: {
+                value: 20,
+                message: "Username cannot exceed 20 characters",
+              },
+            })}
           />
+          {errors.username && (
+            <span className="error">{errors.username.message}</span>
+          )}
         </div>
+
+        {/* Email Field */}
         <div className="form-group">
           <input
             type="email"
             id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && (
+            <span className="error">{errors.email.message}</span>
+          )}
         </div>
+
+        {/* Password Field with Strong Validation */}
         <div className="form-group">
           <input
             type="password"
             id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            required
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "Password must include uppercase, lowercase, number & special character",
+              },
+            })}
           />
+          {errors.password && (
+            <span className="error">{errors.password.message}</span>
+          )}
         </div>
+
+        {/* Submit Button */}
         <button className="button-1" type="submit">
           Make New Account
         </button>
+
+        {/* Already have an account */}
         <div className="war">
           <span>Already have an account?</span>
           <NavLink to="/login" className="log">

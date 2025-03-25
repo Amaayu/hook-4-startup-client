@@ -1,37 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import Cookies from "js-cookie"; // ✅ Token ke liye
+import { useForm } from "react-hook-form";
 import "./Login.css";
 import api from "../../../api/api";
 
 const Login = () => {
-  const [userIsLoading, setUserIsLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // ✅ Button loader state
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // ✅ Button loader state
 
-  useEffect(() => {
-    if (userIsLoading) {
-      navigate("/feed"); // ✅ Feed pe le jao agar user load ho jaye
-    }
-  }, [userIsLoading, navigate]);
+  // ✅ react-hook-form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  // 🚀 Prefetch Posts and Cache in Local Storage
+  // ✅ Prefetch Posts and Cache in Local Storage
   const prefetchPosts = async () => {
-    const token = Cookies.get("session_token");
-
-    if (!token) {
-      console.warn("⚠️ Session token not found!");
-      return;
-    }
-
     try {
       const cachedPosts = localStorage.getItem("cachedPosts");
 
       if (cachedPosts) {
         console.log("🚀 Using Cached Posts");
-        navigate("/feed"); // ✅ Feed pe le jao agar user load ho jaye
+        navigate("/feed");
         return;
       }
 
@@ -39,9 +30,8 @@ const Login = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        credentials: "include",
+        credentials: "include", // ✅ Automatically pass cookies
       });
 
       if (!response.ok) {
@@ -51,53 +41,50 @@ const Login = () => {
 
       const postsData = await response.json();
       console.log("✅ Prefetched Posts:", postsData);
-      localStorage.setItem("cachedPosts", JSON.stringify(postsData)); // 🆕 New posts cache
+      localStorage.setItem("cachedPosts", JSON.stringify(postsData)); // 🆕 Cache new posts
     } catch (error) {
       console.error("🔥 Error prefetching posts:", error.message);
     }
   };
 
   // 🔥 API Call to Login
-  const mySubmitHandler = async (e) => {
-    e.preventDefault();
-    setIsLoading(true); // ✅ Loading start karo
-    const data = { username, password };
-
+  const onSubmit = async (data) => {
+    setIsLoading(true); // ✅ Start loading
     try {
       const response = await fetch(`${api}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        credentials: "include",
+        credentials: "include", // ✅ Pass cookies automatically
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const resData = await response.json();
         console.log("✅ Login successful!");
-        sessionStorage.setItem("userData", JSON.stringify(data.user));
+        sessionStorage.setItem("userData", JSON.stringify(resData.user));
 
         // 🚀 Prefetch and Cache posts after login
         await prefetchPosts();
 
-        setIsLoading(false); // ✅ Loading stop
-        if (data.user.makeProfileStatus === false) {
+        setIsLoading(false); // ✅ Stop loading
+        if (resData.user.makeProfileStatus === false) {
           navigate("/createprofile");
         } else {
           navigate("/feed");
         }
       } else {
-        setIsLoading(false); // ✅ Agar error ho to bhi loading stop
+        setIsLoading(false);
         alert("❌ Invalid username or password!");
       }
     } catch (error) {
-      setIsLoading(false); // ✅ Error pe bhi loading hatao
+      setIsLoading(false);
       console.error("🔥 Error:", error);
     }
   };
 
   return (
     <div className="login">
-      <form className="form-1" onSubmit={mySubmitHandler}>
+      <form className="form-1" onSubmit={handleSubmit(onSubmit)}>
         {/* ✅ Logo */}
         <img
           className="logo-1"
@@ -105,30 +92,52 @@ const Login = () => {
           alt="Hook4StartUp"
         />
 
-        {/* ✅ Username Input */}
+        {/* ✅ Username Input with Validation */}
         <div className="form-group">
           <input
             type="text"
             id="username"
-            name="username"
             placeholder="Username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            {...register("username", {
+              required: "Username is required",
+              minLength: {
+                value: 5,
+                message: "Username must be at least 5 characters",
+              },
+              maxLength: {
+                value: 20,
+                message: "Username cannot exceed 20 characters",
+              },
+            })}
           />
+          {errors.username && (
+            <span className="error">{errors.username.message}</span>
+          )}
         </div>
 
-        {/* ✅ Password Input */}
+        {/* ✅ Password Input with Strong Validation */}
         <div className="form-group">
           <input
             type="password"
             id="password"
-            name="password"
             placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "Password must include uppercase, lowercase, number & special character",
+              },
+            })}
           />
+          {errors.password && (
+            <span className="error">{errors.password.message}</span>
+          )}
         </div>
 
         {/* ✅ Login Button with Loading */}

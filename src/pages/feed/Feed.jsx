@@ -2,21 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./Feed.css";
 import Footer from "../../components/footer/Footer";
 import Card from "../../components/card/Card";
-import Cookies from "js-cookie"; // ✅ Cookies get karne ke liye
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/api";
-
-// ✅ Token ko return karo
-const getToken = () => {
-  return Cookies.get("session_token");
-};
 
 const Feed = () => {
   const navigate = useNavigate(); // ✅ Navigation object
   const [posts, setPosts] = useState([]); // ✅ Posts ko state me rakhna
   const [loading, setLoading] = useState(true); // ✅ Loading state
 
-  // ✅ Local Storage se old posts ko load karo
+  // ✅ Local Storage se cached posts ko load karo
   useEffect(() => {
     const cachedPosts = localStorage.getItem("cachedPosts");
 
@@ -34,21 +28,13 @@ const Feed = () => {
 
   // 🚀 Fetch Posts with Cache
   const fetchPosts = async () => {
-    const token = getToken(); // ✅ Yahan token ko sahi use karo
-
-    if (!token) {
-      console.warn("⚠️ Session token not found!");
-      return;
-    }
-
     try {
       const response = await fetch(`${api}/post/all`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        credentials: "include",
+        credentials: "include", // ✅ Cookie auto-pass hogi
       });
 
       if (!response.ok) {
@@ -63,7 +49,7 @@ const Feed = () => {
       const postsData = await response.json();
       console.log("✅ Fetched New Posts:", postsData);
 
-      // ✅ Purana data clear mat karo, sirf new ko save karo
+      // ✅ New posts ko cache karo
       localStorage.setItem("cachedPosts", JSON.stringify(postsData));
       setPosts(postsData);
       setLoading(false);
@@ -96,8 +82,8 @@ const Feed = () => {
         ) : (
           posts.map((post) => (
             <Card
-              key={post.postId}
-              username={post.username} // ✅ Correct key
+              key={post.postId} // ✅ postId as key
+              username={post.username}
               post={post}
             />
           ))
@@ -110,4 +96,3 @@ const Feed = () => {
 };
 
 export default Feed; // ✅ Bas Feed ko export karo
-export { getToken }; // ✅ getToken ko bhi export karo

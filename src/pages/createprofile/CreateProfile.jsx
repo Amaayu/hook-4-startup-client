@@ -50,7 +50,7 @@ const CreateProfile = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         credentials: "include",
       });
@@ -92,7 +92,7 @@ const CreateProfile = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         body: JSON.stringify(profileData),
@@ -141,7 +141,7 @@ const CreateProfile = () => {
         const uploadResponse = await fetch(`${api}/cloudinary/profile/create`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
+            //Authorization: `Bearer ${token}`,
           },
           credentials: "include",
           body: formData,

@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Navigation ke liye
 import "./Postpage.css";
 import Footer from "../../components/footer/Footer";
-import { getToken } from "../../pages/feed/Feed";
 import api from "../../../api/api";
 
 const Postpage = () => {
-  const token = getToken(); // ✅ Token ko get karne ke liye
-  console.log("🔐 Token in Card:", token);
   const [content, setContent] = useState(""); // ✅ Idea ko store karo
   const navigate = useNavigate(); // ✅ Navigation object
 
@@ -23,9 +20,8 @@ const Postpage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Token sahi se bhej raha hai
         },
-        credentials: "include",
+        credentials: "include", // ✅ Automatically pass cookies
         body: JSON.stringify({
           content: content, // ✅ Payload bhejo
         }),

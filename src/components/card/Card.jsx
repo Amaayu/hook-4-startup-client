@@ -1,17 +1,9 @@
-import { getToken } from "../../pages/feed/Feed"; // ✅ Token import
 import "./Card.css";
 import React, { useState } from "react";
 import api from "../../../api/api";
 
 const Card = ({ post }) => {
-  const token = getToken(); // ✅ Token ko get karne ke liye
-  console.log("🔐 Token in Card:", token);
   const [liked, setLiked] = useState(false); // ✅ Like state
-
-  // 🛑 Check if token is null or undefined
-  if (!token) {
-    console.warn("⚠️ Token not found! API calls will fail.");
-  }
 
   // ❤️ Handle Like
   const handleLike = async () => {
@@ -25,27 +17,17 @@ const Card = ({ post }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Token sahi se bhej raha hai
         },
-        credentials: "include",
+        credentials: "include", // ✅ Automatically pass cookie
         body: JSON.stringify({
           postId: post.postId, // ✅ ID ko sahi bhej raha hai
         }),
       });
 
-      // 🔎 Check response content type for debugging
-      const contentType = response.headers.get("content-type");
-      console.log("🔎 Response Content Type:", contentType);
-
       // 🛑 Error ko handle karo
       if (!response.ok) {
-        if (contentType && contentType.includes("application/json")) {
-          const errorData = await response.json();
-          console.error("❌ Like Failed with JSON:", errorData);
-        } else {
-          const errorText = await response.text(); // ✅ Agar JSON nahi mila to text
-          console.error("❌ Like Failed with Text:", errorText);
-        }
+        const errorText = await response.text();
+        console.error("❌ Like Failed:", errorText);
         return;
       }
 
@@ -71,9 +53,8 @@ const Card = ({ post }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        credentials: "include",
+        credentials: "include", // ✅ Automatically pass cookie
         body: JSON.stringify({
           postId: post.postId,
           comment: "Nice post!",
@@ -116,7 +97,6 @@ const Card = ({ post }) => {
             alt="meet-btn"
           />
           {/* ✅ Like and Comment Buttons */}
-
           <i
             className={`ri-heart-3-line ${liked ? "liked" : ""}`}
             onClick={handleLike}
