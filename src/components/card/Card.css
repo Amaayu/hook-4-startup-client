@@ -44,7 +44,9 @@
 
 .like-row .like-left {
   display: flex;
-  gap: 0.8rem;
+  gap: 0.3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .like-row .like-left img {
@@ -76,4 +78,9 @@
   margin-top: 1px;
   gap: 5px;
   color: #000;
+}
+.btn_hook {
+  width: 35px !important; /* नई चौड़ाई */
+  height: 33px !important; /* नई ऊंचाई */
+  margin-bottom: 3px;
 }

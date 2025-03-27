@@ -93,8 +93,9 @@ const Card = ({ post }) => {
       <div className="like-row">
         <div className="like-left">
           <img
-            src="https://res.cloudinary.com/dijzsv2tt/image/upload/v1713022947/Group_15_srsx27.png"
+            src="https://res.cloudinary.com/dijzsv2tt/image/upload/c_mfit,h_15,w_14/v1743100877/Hook_button_mjorst.svg"
             alt="meet-btn"
+            className="btn_hook"
           />
           {/* ✅ Like and Comment Buttons */}
           <i
