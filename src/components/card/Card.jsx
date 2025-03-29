@@ -4,6 +4,7 @@ import api from "../../../api/api";
 
 const Card = ({ post }) => {
   const [liked, setLiked] = useState(false); // ✅ Like state
+  const [hookImage, setHookImage] = useState("/hook_butt.svg");
 
   // ❤️ Handle Like
   const handleLike = async () => {
@@ -11,7 +12,6 @@ const Card = ({ post }) => {
     console.log("🚀 Payload being sent for Like:", {
       postId: post.postId,
     });
-
     try {
       const response = await fetch(`${api}/like/create`, {
         method: "POST",
@@ -75,6 +75,37 @@ const Card = ({ post }) => {
     }
   };
 
+  // Handle Hook buttun
+  const handlHook = async () => {
+    console.log("this is a postId : ", {
+      postId: post.postId,
+    });
+
+    try {
+      const Hook_Respons = await fetch(`${api}/notify/meetup/notification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          postId: post.postId,
+        }),
+      });
+      // 🛑 Error ko handle karo
+      if (!Hook_Respons.ok) {
+        const errorText = await Hook_Respons.text();
+        console.error("❌ Hook_button Failed:", errorText);
+        return;
+      }
+      const data = await Hook_Respons.text();
+      console.log("✅ Hook_button Success:", data);
+      // 🔥 Dynamically update image src on success
+      setHookImage("/color_hook_butt.svg"); //
+    } catch (error) {
+      console.error("🔥 Error in Hook_button :", error.message);
+    }
+  };
   return (
     <div className="content">
       <div className="top-row">
@@ -93,9 +124,10 @@ const Card = ({ post }) => {
       <div className="like-row">
         <div className="like-left">
           <img
-            src="https://res.cloudinary.com/dijzsv2tt/image/upload/c_mfit,h_15,w_14/v1743100877/Hook_button_mjorst.svg"
+            src={hookImage}
             alt="meet-btn"
             className="btn_hook"
+            onClick={handlHook}
           />
           {/* ✅ Like and Comment Buttons */}
           <i

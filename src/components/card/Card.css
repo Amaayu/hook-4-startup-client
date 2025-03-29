@@ -80,7 +80,9 @@
   color: #000;
 }
 .btn_hook {
-  width: 35px !important; /* नई चौड़ाई */
+  width: 33px !important; /* नई चौड़ाई */
   height: 33px !important; /* नई ऊंचाई */
   margin-bottom: 3px;
+  cursor: pointer;
+  scale: 3px;
 }
