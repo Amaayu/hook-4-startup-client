@@ -34,4 +34,5 @@ const App = () => {
   );
 };
 
+// At the end of App.jsx
 export default App;

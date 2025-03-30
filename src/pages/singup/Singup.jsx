@@ -4,22 +4,26 @@ import { useForm } from "react-hook-form";
 import "./Singup.css";
 import api from "../../../api/api";
 
+let deferredPrompt; // 👈 Global variable to store prompt
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event; // Save for later use
+});
+
 const Signup = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false); // 👁️ Password visibility state
-  const [isSingup, setIsSingup] = useState(false); // ✅ Button loader state
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSingup, setIsSingup] = useState(false);
 
-  // ✅ react-hook-form setup
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // ✅ Form submit handler
   const onSubmit = async (data) => {
-    setIsSingup(true); // ✅ Start loader
-
+    setIsSingup(true);
     try {
       const response = await fetch(`${api}/auth/signup`, {
         method: "POST",
@@ -31,8 +35,21 @@ const Signup = () => {
       if (response.ok) {
         const resData = await response.json();
         console.log("Signup successful!");
-        sessionStorage.setItem("userData", JSON.stringify(resData.user));
 
+        // ✅ Trigger PWA Prompt After Signup
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("User accepted PWA install");
+            } else {
+              console.log("User dismissed PWA install");
+            }
+            deferredPrompt = null;
+          });
+        }
+
+        // ✅ Navigate After Signup
         if (resData.user.makeProfileStatus === false) {
           navigate("/createprofile");
         } else {
@@ -44,7 +61,7 @@ const Signup = () => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setIsSingup(false); // ✅ Stop loader
+      setIsSingup(false);
     }
   };
 
@@ -62,7 +79,6 @@ const Signup = () => {
 
       {/* ✅ Form with react-hook-form */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Username Field */}
         <div className="form-group">
           <input
             type="text"
@@ -85,7 +101,6 @@ const Signup = () => {
           )}
         </div>
 
-        {/* Email Field */}
         <div className="form-group">
           <input
             type="email"
@@ -104,10 +119,9 @@ const Signup = () => {
           )}
         </div>
 
-        {/* Password Field with Eye Icon */}
         <div className="form-group password-container">
           <input
-            type={showPassword ? "text" : "password"} // 👁️ Show/Hide
+            type={showPassword ? "text" : "password"}
             id="password"
             placeholder="Password"
             {...register("password", {
@@ -124,7 +138,6 @@ const Signup = () => {
               },
             })}
           />
-          {/* 👁️ Toggle Eye Icon */}
           <span
             className="eye-icon"
             onClick={() => setShowPassword(!showPassword)}
@@ -136,7 +149,6 @@ const Signup = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         <button className="button-1" type="submit" disabled={isSingup}>
           {isSingup ? (
             <>
@@ -147,7 +159,6 @@ const Signup = () => {
           )}
         </button>
 
-        {/* Already have an account */}
         <div className="war">
           <span>Already have an account?</span>
           <NavLink to="/login" className="log">
