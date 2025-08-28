@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+// Import existing pages
 import SignUp from "./pages/singup/Singup";
 import Profile from "./pages/profile/Profile";
 import Login from "./pages/login/Login";
@@ -10,10 +13,8 @@ import Notification from "./pages/notification/Notification";
 import Meetup from "./pages/meetup/Meetup";
 import Search from "./pages/Search/Search";
 
-// ✅ Add this inside <Routes>
-<Route path="/edit-profile" element={<EditProfile />} />;
-
-import { Routes, Route } from "react-router-dom";
+// Import new demo page
+import ComponentDemo from "./pages/demo/ComponentDemo";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/notifications" element={<Notification />} />
         <Route path="/meetup" element={<Meetup />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/demo" element={<ComponentDemo />} />
       </Routes>
     </>
   );
