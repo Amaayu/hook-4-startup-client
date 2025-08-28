@@ -3,6 +3,7 @@ import "./Meetup.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import api from "../../../api/api";
+import axios from "axios";
 
 const Meetup = () => {
   const [notification, setNotification] = useState([]);
@@ -11,22 +12,13 @@ const Meetup = () => {
   useEffect(() => {
     const handelHook = async () => {
       try {
-        const dataList = await fetch(`${api}/notify/all/notifications`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+        const response = await axios.get(`${api}/notify/all/notifications`, {
+          withCredentials: true, // ✅ Cookies auto-pass hongi
         });
 
-        if (!dataList.ok) {
-          console.log("notification not found");
-          return;
-        }
-        const data = await dataList.json();
-        setNotification(data);
+        setNotification(response.data);
       } catch (error) {
-        console.error("error found", error);
+        console.error("🔥 Error fetching notifications:", error.message);
       }
     };
 

@@ -2,13 +2,11 @@ import "./CreateProfile.css";
 import Footer from "../../components/footer/Footer";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import api from "../../../api/api";
+import axios from "axios";
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-  const token = Cookies.get("session_token"); // ✅ Get Token
-  console.log("🔐 Token in Card:", token);
 
   // ✅ State Variables
   const [profilePicture, setProfilePicture] = useState(
@@ -46,20 +44,11 @@ const CreateProfile = () => {
   // 🚀 Prefetch and Cache Posts
   const prefetchPosts = async () => {
     try {
-      const response = await fetch(`${api}/post/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
+      const response = await axios.get(`${api}/post/all`, {
+        withCredentials: true,
       });
 
-      if (!response.ok) {
-        console.error("❌ Failed to prefetch posts:", response.statusText);
-        return;
-      }
-
-      const postsData = await response.json();
+      const postsData = response.data;
       console.log("✅ Pre-fetched Posts:", postsData);
       localStorage.setItem("cachedPosts", JSON.stringify(postsData));
     } catch (error) {
@@ -87,21 +76,14 @@ const CreateProfile = () => {
 
     try {
       // ✅ Step 1: Create Profile API
-      const profileResponse = await fetch(`${api}/user/profile/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(profileData),
-      });
-
-      if (!profileResponse.ok) {
-        console.error("❌ Profile creation failed!");
-        alert("Error while creating profile.");
-        setIsLoading(false);
-        return;
-      }
+      const profileResponse = await axios.post(
+        `${api}/user/profile/create`,
+        profileData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
 
       console.log("✅ Profile created successfully!");
 
@@ -136,17 +118,13 @@ const CreateProfile = () => {
       if (fileInput.files[0]) {
         formData.append("image", fileInput.files[0]);
 
-        const uploadResponse = await fetch(`${api}/cloudinary/profile/create`, {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        });
-
-        if (!uploadResponse.ok) {
-          console.error("❌ Image upload failed!");
-          alert("Error while uploading profile picture.");
-          return;
-        }
+        const uploadResponse = await axios.post(
+          `${api}/cloudinary/profile/create`,
+          formData,
+          {
+            withCredentials: true,
+          }
+        );
 
         console.log("✅ Profile picture uploaded successfully!");
       }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // ✅ Navigation ke liye
 import "./Postpage.css";
 import Footer from "../../components/footer/Footer";
 import api from "../../../api/api";
+import axios from "axios";
 
 const Postpage = () => {
   const [content, setContent] = useState(""); // ✅ Idea ko store karo
@@ -19,24 +20,14 @@ const Postpage = () => {
     setIsLoading(true); // ⏳ Start loader
 
     try {
-      const response = await fetch(`${api}/post/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ✅ Automatically pass cookies
-        body: JSON.stringify({
-          content: content, // ✅ Payload bhejo
-        }),
-      });
+      const response = await axios.post(
+        `${api}/post/create`,
+        { content: content }, // ✅ Payload bhejo
+        { withCredentials: true } // ✅ Automatically pass cookies
+      );
 
-      if (response.ok) {
-        console.log("✅ Post Created Successfully!");
-        navigate("/feed"); // 🧭 Redirect to Feed
-      } else {
-        console.error("❌ Failed to create post.");
-        alert("❌ Failed to create post. Try again!");
-      }
+      console.log("✅ Post Created Successfully!");
+      navigate("/feed"); // 🧭 Redirect to Feed
     } catch (error) {
       console.error("🔥 Error in posting idea:", error.message);
       alert("🔥 Something went wrong. Please try again.");

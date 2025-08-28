@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Footer.css";
 import api from "../../../api/api";
+import axios from "axios";
 
 const Footer = () => {
   const [profilePicture, setProfilePicture] = useState(
@@ -22,26 +23,24 @@ const Footer = () => {
 
     try {
       console.log("🚀 Fetching profile from API...");
-      const response = await fetch(`${api}/user/profile`, {
-        method: "GET",
-        credentials: "include", // ✅ Token cookies se bhejo
+      const response = await axios.get(`${api}/user/profile`, {
+        withCredentials: true, // ✅ Automatically pass cookies
       });
 
-      if (!response.ok) {
-        throw new Error("❌ Failed to fetch user profile!");
-      }
-
-      const data = await response.json();
-      console.log("✅ Fetched Profile:", data);
-
       // ✅ Profile ko state me set karo
-      setProfilePicture(data.userProfile.profilePicture);
+      setProfilePicture(response.data.userProfile.profilePicture);
       // 🚀 Cache the profile in sessionStorage
-      sessionStorage.setItem("userProfile", JSON.stringify(data.userProfile));
+      sessionStorage.setItem(
+        "userProfile",
+        JSON.stringify(response.data.userProfile)
+      );
 
       setIsLoading(false);
     } catch (error) {
-      console.error("🔥 Error fetching profile:", error);
+      console.error(
+        "🔥 Error fetching profile:",
+        error.response?.data || error.message
+      );
       setIsLoading(false);
     }
   };

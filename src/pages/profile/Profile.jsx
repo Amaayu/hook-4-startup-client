@@ -2,6 +2,7 @@ import "./Profile.css";
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 import api from "../../../api/api";
+import axios from "axios";
 
 const Profile = () => {
   // ✅ State to hold user profile data
@@ -22,24 +23,22 @@ const Profile = () => {
     // ✅ Background me fresh data ko le aao
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`${api}/user/profile`, {
-          method: "GET",
-          credentials: "include", // ✅ Token cookies se bhejo
+        const response = await axios.get(`${api}/user/profile`, {
+          withCredentials: true, // ✅ Token cookies se bhejo
         });
 
-        if (!response.ok) {
-          throw new Error("❌ Failed to fetch user profile!");
-        }
-
-        const data = await response.json();
-        console.log("✅ Fetched Updated Profile:", data);
+        console.log("✅ Fetched Updated Profile:", response.data);
 
         // ✅ New Profile ko update karo
-        setUserData(data.userProfile);
+        setUserData(response.data.userProfile);
+
         // 🚀 Cache updated data in sessionStorage
-        sessionStorage.setItem("userProfile", JSON.stringify(data.userProfile));
+        sessionStorage.setItem(
+          "userProfile",
+          JSON.stringify(response.data.userProfile)
+        );
       } catch (error) {
-        console.error("🔥 Error fetching profile:", error);
+        console.error("🔥 Error fetching profile:", error.message);
       } finally {
         setLoading(false); // ✅ Loading false
       }

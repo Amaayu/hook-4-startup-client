@@ -3,9 +3,11 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./Singup.css";
 import api from "../../../api/api";
+import axios from "axios";
 
 let deferredPrompt; // 👈 Global variable to store prompt
 
+// ✅ PWA Install Event
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredPrompt = event; // Save for later use
@@ -22,28 +24,27 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
+  // 🔥 API Call to Signup
   const onSubmit = async (data) => {
-    setIsSingup(true);
+    setIsSingup(true); // ✅ Start loading
     try {
-      const response = await fetch(`${api}/auth/signup`, {
-        method: "POST",
+      // ✅ Axios POST request for signup
+      const response = await axios.post(`${api}/auth/signup`, data, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
       });
 
-      if (response.ok) {
-        const resData = await response.json();
-        console.log("Signup successful!");
+      if (response.status === 200) {
+        const resData = response.data;
+        console.log("✅ Signup successful!");
 
-        // ✅ Trigger PWA Prompt After Signup
+        // ✅ Trigger PWA Install Prompt After Signup
         if (deferredPrompt) {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === "accepted") {
-              console.log("User accepted PWA install");
+              console.log("✅ User accepted PWA install");
             } else {
-              console.log("User dismissed PWA install");
+              console.log("❌ User dismissed PWA install");
             }
             deferredPrompt = null;
           });
@@ -56,12 +57,13 @@ const Signup = () => {
           navigate("/feed");
         }
       } else {
-        alert("Signup failed! Try again.");
+        alert("❌ Signup failed! Try again.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("🔥 Error:", error);
+      alert("❌ Error during signup. Please try again!");
     } finally {
-      setIsSingup(false);
+      setIsSingup(false); // ✅ Stop loading
     }
   };
 

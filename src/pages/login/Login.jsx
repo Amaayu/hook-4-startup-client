@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios"; // ✅ Axios ko import kiya
 import "./Login.css";
 import api from "../../../api/api";
 
@@ -16,51 +17,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // ✅ Prefetch Posts and Cache in Local Storage
-  const prefetchPosts = async () => {
-    try {
-      const cachedPosts = localStorage.getItem("cachedPosts");
-
-      if (cachedPosts) {
-        console.log("🚀 Using Cached Posts");
-        navigate("/feed");
-        return;
-      }
-
-      const response = await fetch(`${api}/post/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ✅ Automatically pass cookies
-      });
-
-      if (!response.ok) {
-        console.error("❌ Failed to prefetch posts:", response.statusText);
-        return;
-      }
-
-      const postsData = await response.json();
-      console.log("✅ Prefetched Posts:", postsData);
-      localStorage.setItem("cachedPosts", JSON.stringify(postsData)); // 🆕 Cache new posts
-    } catch (error) {
-      console.error("🔥 Error prefetching posts:", error.message);
-    }
-  };
-
   // 🔥 API Call to Login
   const onSubmit = async (data) => {
     setIsLoading(true); // ✅ Start loading
     try {
-      const response = await fetch(`${api}/auth/login`, {
-        method: "POST",
+      // ✅ Axios POST request with cookies
+      const response = await axios.post(`${api}/auth/login`, data, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include", // ✅ Pass cookies automatically
       });
 
-      if (response.ok) {
-        const resData = await response.json();
+      if (response.status === 200) {
+        const resData = response.data;
         console.log("✅ Login successful!");
         sessionStorage.setItem("userData", JSON.stringify(resData.user));
 
@@ -80,6 +47,7 @@ const Login = () => {
     } catch (error) {
       setIsLoading(false);
       console.error("🔥 Error:", error);
+      alert("❌ Error while logging in!");
     }
   };
 

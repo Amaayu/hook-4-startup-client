@@ -4,6 +4,7 @@ import Footer from "../../components/footer/Footer";
 import Card from "../../components/card/Card";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/api";
+import axios from "axios";
 
 const Feed = () => {
   const navigate = useNavigate(); // ✅ Navigation object
@@ -29,24 +30,11 @@ const Feed = () => {
   // 🚀 Fetch Posts with Cache
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${api}/post/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ✅ Cookie auto-pass hogi
+      const response = await axios.get(`${api}/post/all`, {
+        withCredentials: true, // ✅ Cookie auto-pass hogi
       });
 
-      if (!response.ok) {
-        console.error(
-          "❌ Failed to fetch posts:",
-          response.status,
-          response.statusText
-        );
-        return;
-      }
-
-      const postsData = await response.json();
+      const postsData = response.data;
       console.log("✅ Fetched New Posts:", postsData);
 
       // ✅ New posts ko cache karo
@@ -54,7 +42,7 @@ const Feed = () => {
       setPosts(postsData);
       setLoading(false);
     } catch (error) {
-      console.error("🔥 Error fetching posts:", error);
+      console.error("🔥 Error fetching posts:", error.message);
     }
   };
 
